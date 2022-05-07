@@ -12,7 +12,7 @@ lens = []
 def download(url):
     resp = requests.get(url)
     html = etree.HTML(resp.content.decode())
-    titles = html.xpath('//*[@id="wp_news_w15"]/ul/li/div[1]/span[2]/a/text()')
+    titles = html.xpath('//*[@id="wp_news_w15"]/ul/li/div[1]/span[2]/a/@title')
     urls = html.xpath('//*[@id="wp_news_w15"]/ul/li/div[1]/span[2]/a/@href')
     times = html.xpath('//*[@id="wp_news_w15"]/ul/li/div[2]/span/text()')
     for title, url, time in zip(titles, urls, times):
