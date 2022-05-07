@@ -5,7 +5,7 @@ import csv
 from concurrent.futures import ThreadPoolExecutor
 
 fr_url = 'https://www.htu.edu.cn'
-f = open('data.csv', mode='w', encoding='utf-8')
+f = open('data.csv', mode='w', encoding='utf-8-sig')
 csvwriter = csv.writer(f)
 
 lens = []
