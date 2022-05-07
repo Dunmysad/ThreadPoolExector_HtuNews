@@ -1,4 +1,5 @@
 import requests
+import time
 from lxml import etree
 import csv
 from concurrent.futures import ThreadPoolExecutor
@@ -7,6 +8,7 @@ fr_url = 'https://www.htu.edu.cn'
 f = open('data.csv', mode='w', encoding='utf-8')
 csvwriter = csv.writer(f)
 
+lens = []
 def download(url):
     resp = requests.get(url)
     html = etree.HTML(resp.content.decode())
@@ -20,11 +22,14 @@ def download(url):
             url = fr_url + url
         txt = [title, url, time]
         print(txt)
+        lens.append(txt)
         csvwriter.writerow(txt)
 
 
 if __name__ == '__main__':
+    t1 = time.time() 
     with ThreadPoolExecutor(50) as t:
         for i in range(1, 802):
             t.submit(download, f'https://www.htu.edu.cn/8954/list{i}.htm')
-    print('全部下载完毕') 
+    t2 = time.time()
+    print(f'{len(lens)} 条数据全部下载完毕 共耗时{t2 - t1} s') 
