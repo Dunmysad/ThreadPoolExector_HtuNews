@@ -1,4 +1,5 @@
 import requests
+from bs4 import BeautifulSoup
 import time
 from lxml import etree
 import csv
@@ -28,8 +29,10 @@ def download(url):
 
 if __name__ == '__main__':
     t1 = time.time() 
+    res = requests.get('https://www.htu.edu.cn/8954/list.htm')
+    all_pages = int(BeautifulSoup(res.content.decode(), "html.parser").find("em", attrs={"class":"all_pages"}).text)
     with ThreadPoolExecutor(50) as t:
-        for i in range(1, 802):
+        for i in range(1, all_pages):
             t.submit(download, f'https://www.htu.edu.cn/8954/list{i}.htm')
     t2 = time.time()
     print(f'{len(lens)} 条数据全部下载完毕 共耗时{t2 - t1} s') 
